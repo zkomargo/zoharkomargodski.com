@@ -307,6 +307,7 @@ nav a[aria-current="page"] {
 
 .section-heading h2,
 .materials-teaser h2,
+.students-teaser h2,
 .cv-intro h2,
 .contact-section h2 {
   margin: 0;
@@ -537,18 +538,27 @@ nav a[aria-current="page"] {
   padding-left: max(2rem, calc((100vw - var(--max-width)) / 2));
 }
 
-.students-heading {
-  max-width: none;
+.students-teaser {
   display: grid;
-  grid-template-columns: 1.4fr 0.6fr;
-  gap: 5rem;
-  align-items: end;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 0.7fr);
+  gap: clamp(3rem, 8vw, 8rem);
+  align-items: center;
+  border-top: 1px solid var(--ink);
+  border-bottom: 1px solid var(--line);
 }
 
-.students-heading > p {
+.students-teaser-copy > p {
   max-width: 420px;
-  margin: 0 0 0.5rem;
+  margin: 0 0 1.75rem;
   color: var(--muted);
+}
+
+.students-page-hero {
+  padding-bottom: clamp(3rem, 6vw, 5rem);
+}
+
+.students-page-list {
+  padding-top: 1rem;
 }
 
 .student-groups {
@@ -757,9 +767,9 @@ footer {
   }
 
   .split-heading,
-  .students-heading,
   .cv-section,
-  .materials-teaser {
+  .materials-teaser,
+  .students-teaser {
     grid-template-columns: 1fr;
   }
 
