@@ -469,58 +469,15 @@ nav a[aria-current="page"] {
 }
 
 .materials-teaser {
-  display: grid;
-  grid-template-columns: minmax(0, 0.9fr) minmax(360px, 1.1fr);
-  gap: clamp(3rem, 8vw, 8rem);
-  align-items: end;
+  display: block;
+}
+
+.materials-teaser-copy {
+  max-width: 760px;
 }
 
 .materials-teaser-copy .button {
   margin-top: 2rem;
-}
-
-.latest-materials {
-  border-top: 1px solid var(--ink);
-}
-
-.latest-materials a {
-  display: grid;
-  grid-template-columns: 64px 1fr auto;
-  gap: 1.5rem;
-  align-items: baseline;
-  padding: 1.25rem 0;
-  text-decoration: none;
-}
-
-.latest-materials a + a {
-  border-top: 1px solid var(--line);
-}
-
-.latest-materials a:last-child {
-  border-bottom: 1px solid var(--line);
-}
-
-.latest-materials a > span:first-child {
-  color: var(--blue);
-  font-size: 0.7rem;
-  font-weight: 800;
-  letter-spacing: 0.06em;
-}
-
-.latest-materials strong {
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(1.15rem, 2vw, 1.5rem);
-  font-weight: 400;
-  line-height: 1.2;
-}
-
-.latest-materials a > span:last-child {
-  color: var(--blue);
-}
-
-.latest-materials a:hover strong,
-.latest-materials a:focus-visible strong {
-  color: var(--blue);
 }
 
 .students-section {
@@ -759,7 +716,6 @@ footer {
 
   .split-heading,
   .cv-section,
-  .materials-teaser,
   .students-teaser {
     grid-template-columns: 1fr;
   }
@@ -792,11 +748,6 @@ footer {
 
   .resource-grid {
     grid-template-columns: 1fr;
-  }
-
-  .latest-materials a {
-    grid-template-columns: 48px 1fr auto;
-    gap: 0.8rem;
   }
 
   .students-section {
