@@ -214,7 +214,6 @@ nav a:focus-visible {
 
 .portrait-wrap {
   position: relative;
-  padding-bottom: 2.25rem;
 }
 
 .portrait-wrap::before {
@@ -247,27 +246,9 @@ nav a:focus-visible {
   object-fit: cover;
 }
 
-.portrait-caption {
-  position: absolute;
-  z-index: 2;
-  right: 0;
-  bottom: 0;
-  width: min(92%, 390px);
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: 1rem;
-  background: var(--acid);
-  border: 1px solid var(--ink);
-  font-size: 0.66rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
 .link-rail {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   border-top: 1px solid var(--ink);
   border-bottom: 1px solid var(--ink);
 }
@@ -278,7 +259,7 @@ nav a:focus-visible {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 1.5rem max(2rem, calc((100vw - var(--max-width)) / 6));
+  padding: 1.5rem clamp(1.25rem, 2.2vw, 2.5rem);
   text-decoration: none;
 }
 
@@ -488,7 +469,7 @@ nav a:focus-visible {
 
 .cv-intro > p:not(.eyebrow) {
   max-width: 480px;
-  margin: 1.5rem 0 2rem;
+  margin: 0 0 2rem;
   color: var(--muted);
 }
 
@@ -515,6 +496,10 @@ nav a:focus-visible {
   padding: 0;
   border-top: 1px solid var(--ink);
   list-style: none;
+}
+
+.cv-highlights > .eyebrow {
+  margin-bottom: 1rem;
 }
 
 .timeline li {
