@@ -363,6 +363,18 @@ nav a:focus-visible {
   background: #1b1d19;
 }
 
+.resource-card-with-source:focus-within {
+  background: #1b1d19;
+}
+
+.resource-card-main {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  color: inherit;
+  text-decoration: none;
+}
+
 .resource-image {
   overflow: hidden;
   aspect-ratio: 1.85;
@@ -378,7 +390,8 @@ nav a:focus-visible {
 }
 
 .resource-card:hover .resource-image img,
-.resource-card:focus-visible .resource-image img {
+.resource-card:focus-visible .resource-image img,
+.resource-card-with-source:focus-within .resource-image img {
   transform: scale(1.025);
 }
 
@@ -414,6 +427,18 @@ nav a:focus-visible {
   font-weight: 800;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+}
+
+.resource-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 1.5rem;
+  margin-top: auto;
+}
+
+.resource-actions .resource-link {
+  margin-top: 0;
+  text-decoration: none;
 }
 
 .cv-section {
