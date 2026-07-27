@@ -441,6 +441,97 @@ nav a:focus-visible {
   text-decoration: none;
 }
 
+.students-section {
+  max-width: none;
+  padding-right: max(2rem, calc((100vw - var(--max-width)) / 2));
+  padding-left: max(2rem, calc((100vw - var(--max-width)) / 2));
+}
+
+.students-heading {
+  max-width: none;
+  display: grid;
+  grid-template-columns: 1.4fr 0.6fr;
+  gap: 5rem;
+  align-items: end;
+}
+
+.students-heading > p {
+  max-width: 420px;
+  margin: 0 0 0.5rem;
+  color: var(--muted);
+}
+
+.student-groups {
+  border-top: 1px solid var(--ink);
+}
+
+.student-group {
+  display: grid;
+  grid-template-columns: minmax(150px, 0.28fr) 1fr;
+  gap: clamp(2rem, 6vw, 6rem);
+  padding: 2rem 0 0;
+}
+
+.student-group + .student-group {
+  margin-top: 4rem;
+  border-top: 1px solid var(--line);
+}
+
+.student-group-label {
+  margin: 0;
+  color: var(--blue);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+}
+
+.student-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.student-list li {
+  display: grid;
+  grid-template-columns: minmax(210px, 0.82fr) 1.18fr;
+  gap: clamp(1.5rem, 4vw, 4rem);
+  align-items: baseline;
+  padding: 0 0 1.35rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.student-list li + li {
+  padding-top: 1.35rem;
+}
+
+.student-name {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(1.35rem, 2.5vw, 2rem);
+  line-height: 1.1;
+  text-decoration-color: transparent;
+  text-underline-offset: 0.16em;
+  transition: color 160ms ease, text-decoration-color 160ms ease;
+}
+
+.student-name:hover,
+.student-name:focus-visible {
+  color: var(--blue);
+  text-decoration-color: var(--blue);
+}
+
+.student-name span {
+  color: var(--blue);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 0.8rem;
+  vertical-align: top;
+}
+
+.student-list p {
+  margin: 0;
+  color: var(--muted);
+}
+
 .cv-section {
   display: grid;
   grid-template-columns: 0.8fr 1.2fr;
@@ -576,7 +667,12 @@ footer {
   }
 
   .split-heading,
+  .students-heading,
   .cv-section {
+    grid-template-columns: 1fr;
+  }
+
+  .student-group {
     grid-template-columns: 1fr;
   }
 }
@@ -603,6 +699,16 @@ footer {
 
   .resource-grid {
     grid-template-columns: 1fr;
+  }
+
+  .students-section {
+    padding-right: 1.15rem;
+    padding-left: 1.15rem;
+  }
+
+  .student-list li {
+    grid-template-columns: 1fr;
+    gap: 0.55rem;
   }
 
   .timeline li {
