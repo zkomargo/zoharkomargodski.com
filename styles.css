@@ -475,24 +475,12 @@ nav a[aria-current="page"] {
   align-items: end;
 }
 
-.materials-teaser-copy > p:not(.eyebrow) {
-  max-width: 590px;
-  margin: 1.75rem 0 2rem;
-  color: var(--muted);
+.materials-teaser-copy .button {
+  margin-top: 2rem;
 }
 
 .latest-materials {
   border-top: 1px solid var(--ink);
-}
-
-.latest-materials > p {
-  margin: 0;
-  padding: 1rem 0;
-  color: var(--blue);
-  font-size: 0.72rem;
-  font-weight: 800;
-  letter-spacing: 0.11em;
-  text-transform: uppercase;
 }
 
 .latest-materials a {
@@ -501,8 +489,11 @@ nav a[aria-current="page"] {
   gap: 1.5rem;
   align-items: baseline;
   padding: 1.25rem 0;
-  border-top: 1px solid var(--line);
   text-decoration: none;
+}
+
+.latest-materials a + a {
+  border-top: 1px solid var(--line);
 }
 
 .latest-materials a:last-child {
