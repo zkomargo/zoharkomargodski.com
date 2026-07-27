@@ -306,7 +306,6 @@ nav a[aria-current="page"] {
 }
 
 .section-heading h2,
-.materials-teaser h2,
 .students-teaser h2,
 .cv-intro h2,
 .contact-section h2 {
@@ -468,16 +467,126 @@ nav a[aria-current="page"] {
   text-decoration: none;
 }
 
-.materials-teaser {
+.notes-feature {
+  position: relative;
+  overflow: hidden;
+  background: var(--ink);
+  border-top: 1px solid #353830;
+  border-bottom: 1px solid #353830;
+  color: white;
+}
+
+.notes-feature::before {
+  position: absolute;
+  top: -42%;
+  right: -8%;
+  width: clamp(300px, 42vw, 620px);
+  aspect-ratio: 1;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 80px rgba(255, 255, 255, 0.025),
+    0 0 0 160px rgba(255, 255, 255, 0.018);
+  content: "";
+}
+
+.notes-feature::after {
+  position: absolute;
+  right: 4%;
+  bottom: -3rem;
+  width: 260px;
+  height: 180px;
+  background: radial-gradient(circle, var(--acid) 1px, transparent 1.5px);
+  background-size: 12px 12px;
+  content: "";
+  opacity: 0.28;
+}
+
+.notes-feature-inner {
+  position: relative;
+  z-index: 1;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: clamp(5.5rem, 10vw, 9rem) 2rem;
+}
+
+.notes-feature .eyebrow {
+  margin-bottom: clamp(2.5rem, 5vw, 4.5rem);
+  color: var(--acid);
+}
+
+.notes-feature-content {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(250px, 340px);
+  gap: clamp(3rem, 8vw, 8rem);
+  align-items: end;
+}
+
+.notes-feature h2 {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(4.8rem, 10vw, 9rem);
+  font-weight: 400;
+  letter-spacing: -0.075em;
+  line-height: 0.78;
+}
+
+.notes-feature h2 > span {
   display: block;
 }
 
-.materials-teaser-copy {
-  max-width: 760px;
+.notes-feature-second-line {
+  padding-left: clamp(1.5rem, 6vw, 6rem);
 }
 
-.materials-teaser-copy .button {
-  margin-top: 2rem;
+.notes-feature-second-line em {
+  color: var(--acid);
+  font-style: normal;
+}
+
+.notes-feature-button {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  min-height: 78px;
+  padding: 1.2rem 1.3rem;
+  background: var(--blue);
+  box-shadow: 8px 8px 0 var(--acid);
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition:
+    background 180ms ease,
+    box-shadow 180ms ease,
+    transform 180ms ease;
+}
+
+.notes-feature-button:hover,
+.notes-feature-button:focus-visible {
+  background: var(--blue-dark);
+  box-shadow: 12px 12px 0 var(--acid);
+  transform: translate(-3px, -3px);
+}
+
+.notes-feature-button:focus-visible {
+  outline: 2px solid white;
+  outline-offset: 5px;
+}
+
+.notes-feature-button-arrow {
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  border-radius: 50%;
+  font-size: 1rem;
 }
 
 .students-section {
@@ -487,12 +596,15 @@ nav a[aria-current="page"] {
 }
 
 .students-teaser {
+  max-width: none;
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(320px, 0.7fr);
   gap: clamp(3rem, 8vw, 8rem);
   align-items: center;
-  border-top: 1px solid var(--ink);
-  border-bottom: 1px solid var(--line);
+  padding-right: max(2rem, calc((100vw - var(--max-width)) / 2));
+  padding-left: max(2rem, calc((100vw - var(--max-width)) / 2));
+  background: var(--white);
+  border-bottom: 1px solid var(--ink);
 }
 
 .students-teaser-copy > p {
@@ -720,6 +832,14 @@ footer {
     grid-template-columns: 1fr;
   }
 
+  .notes-feature-content {
+    grid-template-columns: 1fr;
+  }
+
+  .notes-feature-button {
+    max-width: 340px;
+  }
+
   .student-group {
     grid-template-columns: 1fr;
   }
@@ -736,6 +856,31 @@ footer {
 
   .hero {
     padding-top: 3.5rem;
+  }
+
+  .notes-feature-inner {
+    padding: 5rem 1.15rem 5.5rem;
+  }
+
+  .notes-feature::before {
+    top: -12%;
+    right: -45%;
+  }
+
+  .notes-feature::after {
+    opacity: 0.18;
+  }
+
+  .notes-feature h2 {
+    font-size: clamp(4.1rem, 21vw, 6.8rem);
+  }
+
+  .notes-feature-second-line {
+    padding-left: 1rem;
+  }
+
+  .notes-feature-button {
+    width: calc(100% - 8px);
   }
 
   .hero h1 {
