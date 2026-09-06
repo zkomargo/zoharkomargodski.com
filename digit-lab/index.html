@@ -6,7 +6,7 @@
     <title>Handwritten Digit Lab | Zohar Komargodski</title>
     <meta name="description" content="Draw a handwritten digit and compare how K-nearest neighbors and a convolutional neural network recognize it.">
     <meta name="author" content="Zohar Komargodski">
-    <meta name="robots" content="index, follow, max-image-preview:large">
+    <meta name="robots" content="noindex, nofollow, noarchive">
     <meta name="theme-color" content="#1235d8">
     <link rel="canonical" href="https://zoharkomargodski.com/digit-lab/">
     <link rel="icon" href="../favicon.svg">
@@ -22,7 +22,30 @@
     <meta name="twitter:description" content="Draw one digit. See how KNN and a CNN reach their answers.">
     <script type="module" src="app.js"></script>
   </head>
-  <body class="lab-page">
+  <body class="lab-page is-locked">
+    <section class="access-gate" id="access-gate" aria-labelledby="access-title">
+      <div class="access-card">
+        <div class="access-picture" aria-hidden="true">
+          <img src="../images/digit-lab-8x8.png" alt="" width="8" height="8">
+          <span>8 × 8</span>
+        </div>
+        <div class="access-copy">
+          <p class="eyebrow">Classroom access</p>
+          <h1 id="access-title">Enter the class password</h1>
+          <p>This small gate keeps the drawing experiment for invited students.</p>
+          <form class="access-form" id="access-form">
+            <label for="access-password">Password</label>
+            <div>
+              <input id="access-password" name="password" type="password" inputmode="numeric" autocomplete="off" pattern="[0-9]*" maxlength="2" required autofocus>
+              <button type="submit">Open the lab</button>
+            </div>
+            <p class="access-error" id="access-error" role="alert" aria-live="polite"></p>
+          </form>
+          <a class="access-home" href="../index.html">Back to ZoharKomargodski.com</a>
+        </div>
+      </div>
+    </section>
+
     <a class="skip-link" href="#lab">Skip to the drawing lab</a>
 
     <header class="site-header lab-header">
@@ -43,7 +66,7 @@
       <section class="lab-intro" aria-labelledby="lab-title">
         <div>
           <p class="eyebrow">Interactive teaching lab</p>
-          <h1 id="lab-title">Can a computer read your handwriting?</h1>
+          <h1 id="lab-title" tabindex="-1">Can a computer read your handwriting?</h1>
         </div>
         <div class="lab-intro-copy">
           <p>Draw one digit from 0 to 9. Two very different models will study the same marks—and show you how they reached their answers.</p>
@@ -148,7 +171,6 @@
                   <dl><div><dt>Distance</dt><dd data-neighbor-distance>—</dd></div><div><dt>Vote weight</dt><dd data-neighbor-influence>—</dd></div></dl>
                 </li>
               </ol>
-              <p class="benchmark-note">98.4% on held-back examples from the same small 8 × 8 dataset. Freehand drawings are a harder test.</p>
             </article>
 
             <article class="model-card cnn-card" aria-labelledby="cnn-title">
@@ -186,7 +208,6 @@
               <div class="cnn-layers" aria-label="Simplified CNN path">
                 <span>Pixels</span><i aria-hidden="true">→</i><span>Edges</span><i aria-hidden="true">→</i><span>Curves</span><i aria-hidden="true">→</i><span>Digit</span>
               </div>
-              <p class="benchmark-note">99.1% on 10,000 held-back MNIST images. This benchmark differs from KNN’s and is not a direct contest.</p>
             </article>
           </div>
         </div>

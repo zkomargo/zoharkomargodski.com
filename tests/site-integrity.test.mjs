@@ -60,9 +60,20 @@ test("digit lab manifest points to compact model assets", async () => {
   assert.ok(manifest.cnn.byteLength < 2_000_000);
 });
 
-test("homepage and sitemap expose the permanent lab address", async () => {
+test("homepage links to the lab while search engines are asked not to list it", async () => {
   const homepage = await readFile(resolve(siteFolder, "index.html"), "utf8");
+  const lab = await readFile(resolve(siteFolder, "digit-lab/index.html"), "utf8");
   const sitemap = await readFile(resolve(siteFolder, "sitemap.xml"), "utf8");
   assert.match(homepage, /href="digit-lab\/"/);
-  assert.match(sitemap, /https:\/\/zoharkomargodski\.com\/digit-lab\//);
+  assert.match(lab, /name="robots" content="noindex, nofollow, noarchive"/);
+  assert.doesNotMatch(sitemap, /https:\/\/zoharkomargodski\.com\/digit-lab\//);
+});
+
+test("classroom gate delays model loading and uses the requested password", async () => {
+  const app = await readFile(resolve(siteFolder, "digit-lab/app.js"), "utf8");
+  const requestedDigest = createHash("sha256").update("67").digest("hex");
+  assert.match(app, new RegExp(requestedDigest));
+  const gatePosition = app.indexOf("await requestClassroomAccess()");
+  const modelPosition = app.indexOf("models = await loadDigitModels()");
+  assert.ok(gatePosition >= 0 && modelPosition > gatePosition);
 });

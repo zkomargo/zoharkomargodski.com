@@ -1,5 +1,5 @@
-import { loadDigitModels } from "./model-runtime.js";
-
+const ACCESS_DIGEST = "49d180ecf56132819571bf39d9b7b342522a2ac6d23c1418d3338251bfe469c8";
+const ACCESS_SESSION_KEY = "digit-lab-classroom-access-v1";
 const LOGICAL_CANVAS_SIZE = 480;
 const BRUSH_WIDTH = 32;
 const drawingCanvas = document.querySelector("#drawing-canvas");
@@ -15,6 +15,76 @@ let models = null;
 let lastPoint = null;
 let activePointer = null;
 let hasInk = false;
+
+function sessionHasAccess() {
+  try {
+    return window.sessionStorage.getItem(ACCESS_SESSION_KEY) === ACCESS_DIGEST;
+  } catch {
+    return false;
+  }
+}
+
+function rememberAccess() {
+  try {
+    window.sessionStorage.setItem(ACCESS_SESSION_KEY, ACCESS_DIGEST);
+  } catch {
+    // Some strict privacy modes disable storage. The page still unlocks for
+    // this visit; it will simply ask again after a refresh.
+  }
+}
+
+async function passwordDigest(password) {
+  if (!globalThis.crypto?.subtle || !globalThis.TextEncoder) {
+    throw new Error("This browser cannot check the classroom password.");
+  }
+  const bytes = new TextEncoder().encode(password);
+  const hash = await globalThis.crypto.subtle.digest("SHA-256", bytes);
+  return Array.from(new Uint8Array(hash), (value) =>
+    value.toString(16).padStart(2, "0"),
+  ).join("");
+}
+
+function unlockPage() {
+  document.body.classList.remove("is-locked");
+  document.querySelector("#access-gate").hidden = true;
+  document.querySelector("#lab-title").focus({ preventScroll: true });
+}
+
+function requestClassroomAccess() {
+  if (sessionHasAccess()) {
+    unlockPage();
+    return Promise.resolve();
+  }
+
+  const form = document.querySelector("#access-form");
+  const password = document.querySelector("#access-password");
+  const errorMessage = document.querySelector("#access-error");
+  password.focus({ preventScroll: true });
+
+  return new Promise((resolve) => {
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      password.removeAttribute("aria-invalid");
+      errorMessage.textContent = "Checking…";
+      try {
+        const submittedDigest = await passwordDigest(password.value.trim());
+        if (submittedDigest !== ACCESS_DIGEST) {
+          errorMessage.textContent = "That password is not correct. Please try again.";
+          password.setAttribute("aria-invalid", "true");
+          password.value = "";
+          password.focus();
+          return;
+        }
+        rememberAccess();
+        unlockPage();
+        resolve();
+      } catch (error) {
+        console.error(error);
+        errorMessage.textContent = "This browser could not check the password. Please try a newer browser.";
+      }
+    });
+  });
+}
 
 function setDrawingStyle() {
   drawingContext.strokeStyle = "#ffffff";
@@ -377,6 +447,10 @@ document.querySelectorAll("[data-example]").forEach((button) => {
   button.addEventListener("click", () => drawExample(button.dataset.example));
 });
 
+// Nothing below this point—including the two model downloads—runs until the
+// classroom password has been accepted in this browser tab.
+await requestClassroomAccess();
+const { loadDigitModels } = await import("./model-runtime.js");
 initializeDrawingCanvas();
 resetResults();
 
