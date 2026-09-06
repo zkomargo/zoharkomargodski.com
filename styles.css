@@ -613,6 +613,91 @@ nav a[aria-current="page"] {
   color: var(--muted);
 }
 
+.lab-teaser-home {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.55fr);
+  gap: clamp(3rem, 9vw, 9rem);
+  align-items: center;
+  padding: clamp(5rem, 9vw, 8rem) max(2rem, calc((100vw - var(--max-width)) / 2));
+  background: var(--blue);
+  border-bottom: 1px solid var(--ink);
+  color: white;
+}
+
+.lab-teaser-home .eyebrow {
+  color: var(--acid);
+}
+
+.lab-teaser-home h2 {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(3.4rem, 7vw, 7rem);
+  font-weight: 400;
+  letter-spacing: -0.065em;
+  line-height: 0.86;
+}
+
+.lab-teaser-home h2 em {
+  color: var(--acid);
+  font-style: normal;
+}
+
+.lab-teaser-copy > p:not(.eyebrow) {
+  max-width: 650px;
+  margin: 2rem 0;
+  color: #d8dcff;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(1.05rem, 1.8vw, 1.35rem);
+}
+
+.lab-teaser-button {
+  background: var(--acid);
+  border-color: var(--ink);
+  box-shadow: 7px 7px 0 var(--ink);
+  color: var(--ink);
+}
+
+.lab-teaser-button:hover,
+.lab-teaser-button:focus-visible {
+  background: white;
+  box-shadow: 10px 10px 0 var(--ink);
+}
+
+.lab-teaser-visual {
+  justify-self: end;
+  width: min(100%, 330px);
+}
+
+.lab-teaser-visual > p {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 0 0 0.7rem;
+  color: var(--acid);
+  font-size: 0.64rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.lab-teaser-visual > p strong {
+  color: white;
+}
+
+.lab-teaser-pixel-image {
+  padding: clamp(1rem, 2.4vw, 1.7rem);
+  background: var(--ink);
+  border: 1px solid white;
+  box-shadow: 12px 12px 0 var(--acid);
+}
+
+.lab-teaser-pixel-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+  image-rendering: pixelated;
+}
+
 .students-page-hero {
   padding-bottom: clamp(3rem, 6vw, 5rem);
 }
@@ -828,8 +913,14 @@ footer {
 
   .split-heading,
   .cv-section,
-  .students-teaser {
+  .students-teaser,
+  .lab-teaser-home {
     grid-template-columns: 1fr;
+  }
+
+  .lab-teaser-visual {
+    justify-self: start;
+    width: min(70vw, 300px);
   }
 
   .notes-feature-content {
@@ -860,6 +951,14 @@ footer {
 
   .notes-feature-inner {
     padding: 5rem 1.15rem 5.5rem;
+  }
+
+  .lab-teaser-home {
+    padding: 5rem 1.15rem;
+  }
+
+  .lab-teaser-home h2 {
+    font-size: clamp(3.5rem, 18vw, 5.8rem);
   }
 
   .notes-feature::before {

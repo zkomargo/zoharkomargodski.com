@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Handwritten Digit Lab | Zohar Komargodski</title>
+    <meta name="description" content="Draw a handwritten digit and compare how K-nearest neighbors and a convolutional neural network recognize it.">
+    <meta name="author" content="Zohar Komargodski">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <meta name="theme-color" content="#1235d8">
+    <link rel="canonical" href="https://zoharkomargodski.com/digit-lab/">
+    <link rel="icon" href="../favicon.svg">
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="digit-lab.css">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://zoharkomargodski.com/digit-lab/">
+    <meta property="og:site_name" content="Zohar Komargodski">
+    <meta property="og:title" content="Handwritten Digit Lab">
+    <meta property="og:description" content="Draw one digit. See how KNN and a CNN reach their answers.">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Handwritten Digit Lab">
+    <meta name="twitter:description" content="Draw one digit. See how KNN and a CNN reach their answers.">
+    <script type="module" src="app.js"></script>
+  </head>
+  <body class="lab-page">
+    <a class="skip-link" href="#lab">Skip to the drawing lab</a>
+
+    <header class="site-header lab-header">
+      <a class="wordmark" href="../index.html" aria-label="Zohar Komargodski, home">
+        <span>ZK</span>
+        <strong>Zohar Komargodski</strong>
+      </a>
+      <nav aria-label="Main navigation">
+        <a href="../research.html">Research &amp; lectures</a>
+        <a href="../students.html">Students</a>
+        <a href="./" aria-current="page">Digit lab</a>
+        <a href="../index.html#contact">Contact</a>
+      </nav>
+      <a class="lab-back-link" href="../index.html">Back home</a>
+    </header>
+
+    <main id="lab">
+      <section class="lab-intro" aria-labelledby="lab-title">
+        <div>
+          <p class="eyebrow">Interactive teaching lab</p>
+          <h1 id="lab-title">Can a computer read your handwriting?</h1>
+        </div>
+        <div class="lab-intro-copy">
+          <p>Draw one digit from 0 to 9. Two very different models will study the same marks—and show you how they reached their answers.</p>
+          <p class="model-status" id="model-status" role="status">
+            <span class="model-status-dot" aria-hidden="true"></span>
+            <span id="model-status-text">Loading the two models…</span>
+          </p>
+        </div>
+      </section>
+
+      <section class="lab-workspace" aria-label="Handwritten digit experiment">
+        <div class="drawing-panel">
+          <div class="panel-kicker">
+            <span>01</span>
+            <p>Your drawing</p>
+          </div>
+          <h2>Draw a single digit</h2>
+          <p class="drawing-instruction">Use your finger, mouse, or trackpad. White ink works best when it fills most of the square.</p>
+
+          <div class="canvas-frame">
+            <canvas
+              id="drawing-canvas"
+              width="480"
+              height="480"
+              tabindex="0"
+              role="img"
+              aria-label="Black drawing pad. Draw a white handwritten digit with a finger, mouse, or trackpad."
+            ></canvas>
+            <span class="canvas-corner canvas-corner-top" aria-hidden="true">0</span>
+            <span class="canvas-corner canvas-corner-bottom" aria-hidden="true">9</span>
+          </div>
+
+          <div class="drawing-actions">
+            <button class="lab-button lab-button-primary" id="guess-button" type="button" disabled>Loading models…</button>
+            <button class="lab-button lab-button-secondary" id="clear-button" type="button">Clear</button>
+          </div>
+
+          <div class="example-row" aria-label="Example drawings">
+            <span>Or try an example</span>
+            <button type="button" data-example="2" aria-label="Put an example 2 on the drawing pad">2</button>
+            <button type="button" data-example="5" aria-label="Put an example 5 on the drawing pad">5</button>
+            <button type="button" data-example="8" aria-label="Put an example 8 on the drawing pad">8</button>
+          </div>
+
+          <p class="privacy-note">Everything happens on this device. Your drawing is not saved or uploaded.</p>
+        </div>
+
+        <div class="comparison" id="comparison">
+          <div class="comparison-heading">
+            <div class="panel-kicker panel-kicker-light">
+              <span>02</span>
+              <p>Two ways of seeing</p>
+            </div>
+            <h2>Ask the models</h2>
+            <p>The percentages below describe each model’s internal vote or score. They are not promises of certainty.</p>
+          </div>
+
+          <div class="model-grid">
+            <article class="model-card knn-card" aria-labelledby="knn-title">
+              <header class="model-card-header">
+                <div>
+                  <p class="model-number">Model 1</p>
+                  <h3 id="knn-title">KNN</h3>
+                </div>
+                <span class="model-type">Looks for examples</span>
+              </header>
+
+              <div class="prediction-row">
+                <div class="prediction-number">
+                  <span>KNN guesses</span>
+                  <strong id="knn-prediction">—</strong>
+                </div>
+                <div class="model-preview">
+                  <span>What KNN sees</span>
+                  <canvas id="knn-preview" width="8" height="8" role="img" aria-label="The drawing reduced to an 8 by 8 brightness grid"></canvas>
+                  <small>8 × 8 = 64 values</small>
+                </div>
+              </div>
+              <p class="vote-summary" id="knn-vote">Waiting for your drawing</p>
+
+              <div class="neighbor-heading">
+                <h4>The 3 closest pictures in its memory</h4>
+                <p>Smaller distance means a more similar 64-number vector.</p>
+              </div>
+              <ol class="neighbor-list">
+                <li class="neighbor-card" data-neighbor-card>
+                  <span class="neighbor-rank" data-neighbor-rank>#1</span>
+                  <canvas data-neighbor-image width="8" height="8" role="img" aria-label="First nearest stored digit"></canvas>
+                  <p>Known digit <strong data-neighbor-label>—</strong></p>
+                  <dl><div><dt>Distance</dt><dd data-neighbor-distance>—</dd></div><div><dt>Vote weight</dt><dd data-neighbor-influence>—</dd></div></dl>
+                </li>
+                <li class="neighbor-card" data-neighbor-card>
+                  <span class="neighbor-rank" data-neighbor-rank>#2</span>
+                  <canvas data-neighbor-image width="8" height="8" role="img" aria-label="Second nearest stored digit"></canvas>
+                  <p>Known digit <strong data-neighbor-label>—</strong></p>
+                  <dl><div><dt>Distance</dt><dd data-neighbor-distance>—</dd></div><div><dt>Vote weight</dt><dd data-neighbor-influence>—</dd></div></dl>
+                </li>
+                <li class="neighbor-card" data-neighbor-card>
+                  <span class="neighbor-rank" data-neighbor-rank>#3</span>
+                  <canvas data-neighbor-image width="8" height="8" role="img" aria-label="Third nearest stored digit"></canvas>
+                  <p>Known digit <strong data-neighbor-label>—</strong></p>
+                  <dl><div><dt>Distance</dt><dd data-neighbor-distance>—</dd></div><div><dt>Vote weight</dt><dd data-neighbor-influence>—</dd></div></dl>
+                </li>
+              </ol>
+              <p class="benchmark-note">98.4% on held-back examples from the same small 8 × 8 dataset. Freehand drawings are a harder test.</p>
+            </article>
+
+            <article class="model-card cnn-card" aria-labelledby="cnn-title">
+              <header class="model-card-header">
+                <div>
+                  <p class="model-number">Model 2</p>
+                  <h3 id="cnn-title">CNN</h3>
+                </div>
+                <span class="model-type">Builds shape features</span>
+              </header>
+
+              <div class="prediction-row">
+                <div class="prediction-number">
+                  <span>CNN guesses</span>
+                  <strong id="cnn-prediction">—</strong>
+                </div>
+                <div class="model-preview">
+                  <span>What CNN sees</span>
+                  <canvas id="cnn-preview" width="28" height="28" role="img" aria-label="The drawing reduced to a centered 28 by 28 brightness grid"></canvas>
+                  <small>28 × 28 brightness grid</small>
+                </div>
+              </div>
+              <p class="vote-summary" id="cnn-score">Waiting for your drawing</p>
+
+              <div class="score-heading">
+                <h4>CNN’s three highest model scores</h4>
+                <p>The network builds edges and curves before scoring all ten digits.</p>
+              </div>
+              <ol class="score-list">
+                <li data-score-row><strong data-score-digit>—</strong><div class="score-track"><span data-score-fill></span></div><span data-score-value>—</span></li>
+                <li data-score-row><strong data-score-digit>—</strong><div class="score-track"><span data-score-fill></span></div><span data-score-value>—</span></li>
+                <li data-score-row><strong data-score-digit>—</strong><div class="score-track"><span data-score-fill></span></div><span data-score-value>—</span></li>
+              </ol>
+
+              <div class="cnn-layers" aria-label="Simplified CNN path">
+                <span>Pixels</span><i aria-hidden="true">→</i><span>Edges</span><i aria-hidden="true">→</i><span>Curves</span><i aria-hidden="true">→</i><span>Digit</span>
+              </div>
+              <p class="benchmark-note">99.1% on 10,000 held-back MNIST images. This benchmark differs from KNN’s and is not a direct contest.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <p class="visually-hidden" id="result-announcement" aria-live="polite"></p>
+
+      <section class="knn-explainer" aria-labelledby="knn-explainer-title">
+        <div class="explainer-intro">
+          <p class="eyebrow">Inside KNN</p>
+          <h2 id="knn-explainer-title">How three neighbors make one guess</h2>
+        </div>
+        <ol class="explainer-steps">
+          <li><span>1</span><div><h3>Turn the picture into numbers</h3><p>The drawing shrinks to 8 × 8 pixels. Reading their brightness row by row produces a vector with 64 entries.</p></div></li>
+          <li><span>2</span><div><h3>Measure every distance</h3><p>KNN compares that new vector with all 1,347 labeled vectors in its memory.</p></div></li>
+          <li><span>3</span><div><h3>Let the nearest three vote</h3><p>Closer pictures receive more influence. The digit with the strongest combined vote becomes KNN’s answer.</p></div></li>
+        </ol>
+      </section>
+    </main>
+
+    <footer>
+      <span>© 2026 Zohar Komargodski</span>
+      <span>Interactive KNN and CNN teaching lab.</span>
+    </footer>
+  </body>
+</html>
