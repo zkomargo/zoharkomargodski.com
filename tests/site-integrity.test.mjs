@@ -60,11 +60,13 @@ test("digit lab manifest points to compact model assets", async () => {
   assert.ok(manifest.cnn.byteLength < 2_000_000);
 });
 
-test("homepage links to the lab while search engines are asked not to list it", async () => {
-  const homepage = await readFile(resolve(siteFolder, "index.html"), "utf8");
+test("the unlisted lab is absent from public pages and search listings", async () => {
   const lab = await readFile(resolve(siteFolder, "digit-lab/index.html"), "utf8");
   const sitemap = await readFile(resolve(siteFolder, "sitemap.xml"), "utf8");
-  assert.match(homepage, /href="digit-lab\/"/);
+  for (const page of ["index.html", "research.html", "students.html"]) {
+    const publicPage = await readFile(resolve(siteFolder, page), "utf8");
+    assert.doesNotMatch(publicPage, /digit-lab/);
+  }
   assert.match(lab, /name="robots" content="noindex, nofollow, noarchive"/);
   assert.doesNotMatch(sitemap, /https:\/\/zoharkomargodski\.com\/digit-lab\//);
 });
