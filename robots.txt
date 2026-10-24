@@ -1,4 +1,5 @@
 User-agent: *
+Disallow: /defects-preview/
 Allow: /
 
 Sitemap: https://zoharkomargodski.com/sitemap.xml
