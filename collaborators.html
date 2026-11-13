@@ -107,7 +107,7 @@
     const badge=(svg,x,y,c)=>{const g=svg.append('g').attr('data-badge-country',c.id).attr('aria-label',`${c.name}: ${c.count} collaborators`);g.append('title').text(`${c.name}: ${c.count} collaborators`);g.append('circle').attr('cx',x).attr('cy',y).attr('r',11).attr('class','number-badge');g.append('text').attr('x',x).attr('y',y+4).attr('text-anchor','middle').text(c.count)};
     function draw(){
       root.querySelector('.counts-layout').classList.toggle('is-arrow',mode==='arrows');root.querySelector('.inset-group').hidden=mode!=='arrows';
-        root.querySelector('.coverage').textContent=`${data.coauthor_count} collaborators · ${data.country_count} countries / regions · Each person counted once`+' · Countries of birth, using present-day boundaries.';
+        root.querySelector('.coverage').textContent=`${data.coauthor_count} collaborators · ${data.country_count} countries / regions`+' · Countries of birth, using present-day boundaries.';
       const el=root.querySelector('.world'),width=el.getBoundingClientRect().width,height=Math.max(170,width*.50),svg=d3.select(el);svg.selectAll('*').remove();svg.attr('viewBox',`0 0 ${width} ${height}`).attr('height',height);
       const projection=d3.geoEqualEarth().fitExtent([[1,4],[width-1,height-4]],{type:'Sphere'}),path=d3.geoPath(projection);
       svg.append('path').attr('d',path({type:'Sphere'})).attr('fill','color-mix(in srgb,var(--muted) 30%,var(--background))');
@@ -139,8 +139,6 @@
   </script>
 </div>
 
-    <p class="map-source">Arrows connect a symbolic point in the Atlantic to collaborators’ countries of birth. Every person is counted once.<br>
-    Based on <a href="https://inspirehep.net/authors/1021214">INSPIRE</a> publications, public biographies, and personal knowledge · Record checked 11 November 2026 · Map: Natural Earth</p>
     <noscript><p>This map needs JavaScript to draw the country outlines and counts.</p></noscript>
   </main>
   <footer><span>© 2026 Zohar Komargodski</span><a href="index.html">Back to home</a></footer>
